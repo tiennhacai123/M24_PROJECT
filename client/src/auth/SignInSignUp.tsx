@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './style.css';
-
+import '../assets/signinsignout.css'
+import { User, UserFormData, FormErrors } from '../interfaces/interface'
+// import { useNavigate } from 'react-router-dom';
 export default function SignInSignup() {
   const [isSignUpActive, setIsSignUpActive] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<UserFormData>({
+    email: '',
+    password: '',
+    name: '',
+    userName: ''
+  });
+
+  const [errors, setErrors] = useState<FormErrors>({
     email: '',
     password: '',
     name: '',
@@ -15,7 +23,7 @@ export default function SignInSignup() {
     setIsSignUpActive(!isSignUpActive);
   };
 
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -23,11 +31,49 @@ export default function SignInSignup() {
     });
   };
 
-  const handleSubmit = async (e:any) => {
+  const validateFormData = (isSignUp: boolean) => {
+    let isValid = true;
+    const newErrors = { email: '', password: '', name: '', userName: '' };
+
+    // Validate email
+    if (!formData.email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.email)) {
+      newErrors.email = 'Email không hợp lệ.';
+      isValid = false;
+    }
+
+    // Validate password
+    if (!formData.password || formData.password.length < 6) {
+      newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự.';
+      isValid = false;
+    }
+
+    // Additional validations for sign-up
+    if (isSignUp) {
+      if (!formData.name.trim()) {
+        newErrors.name = 'Tên không được để trống.';
+        isValid = false;
+      }
+
+      if (!formData.userName.trim()) {
+        newErrors.userName = 'Tên đăng nhập không được để trống.';
+        isValid = false;
+      }
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    if (!validateFormData(isSignUpActive)) {
+      return;
+    }
+
     if (isSignUpActive) {
       try {
-        const response = await axios.post('http://localhost:8080/users', {
+        const response:User = await axios.post('http://localhost:8080/users', {
           userName: formData.userName,
           email: formData.email,
           name: formData.name,
@@ -40,9 +86,20 @@ export default function SignInSignup() {
           groups: [],   
           created_at: new Date().toISOString()
         });
-        alert('Đăng ký thành công')
+        alert('Đăng ký thành công');
+        
+        // Sau khi đăng ký thành công, đặt lại giá trị của formData
+        setFormData({
+          email: '',
+          password: '',
+          name: '',
+          userName: ''
+        });
+
+        // Chuyển sang form đăng nhập
+        setIsSignUpActive(false);
       } catch (error) {
-        alert('Đăng ký thất bại. Vui lòng thử lại')
+        alert('Đăng ký thất bại. Vui lòng thử lại');
       }
     } else {
       try {
@@ -55,8 +112,10 @@ export default function SignInSignup() {
         const user = response.data.find((user: { email: string; password: string; }) => user.email === formData.email && user.password === formData.password);
         if (user) {
           alert(`Chào mừng, ${user.name}!`);
+          
         } else {
           alert('Đăng nhập thất bại. Email hoặc mật khẩu không đúng.');
+          
         }
       } catch (error) {
         alert('Đăng nhập thất bại. Vui lòng thử lại.');
@@ -85,10 +144,38 @@ export default function SignInSignup() {
               </a>
             </div>
             <span>hoặc sử dụng email của bạn để đăng ký</span>
-            <input type="text" name="name" placeholder="Tên" value={formData.name} onChange={handleChange} required />
-            <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-            <input type="text" name="userName" placeholder="Tên Đăng Nhập" value={formData.userName} onChange={handleChange} required />
-            <input type="password" name="password" placeholder="Mật Khẩu" value={formData.password} onChange={handleChange} required />
+            <input
+              type="text"
+              name="name"
+              placeholder="Tên"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            {errors.name && <span className="error">{errors.name}</span>}
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            {errors.email && <span className="error">{errors.email}</span>}
+            <input
+              type="text"
+              name="userName"
+              placeholder="Tên Đăng Nhập"
+              value={formData.userName}
+              onChange={handleChange}
+            />
+            {errors.userName && <span className="error">{errors.userName}</span>}
+            <input
+              type="password"
+              name="password"
+              placeholder="Mật Khẩu"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            {errors.password && <span className="error">{errors.password}</span>}
             <button type="submit">Đăng Ký</button>
           </form>
         </div>
@@ -110,8 +197,24 @@ export default function SignInSignup() {
               </a>
             </div>
             <span>hoặc sử dụng email của bạn để đăng nhập</span>
-            <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-            <input type="password" name="password" placeholder="Mật Khẩu" value={formData.password} onChange={handleChange} required />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            {errors.email && <span className="error">{errors.email}</span>}
+            <input
+              type="password"
+              name="password"
+              placeholder="Mật Khẩu"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            {errors.password && <span className="error">{errors.password}</span>}
             <a href="#">Quên mật khẩu của bạn?</a>
             <button type="submit">Đăng Nhập</button>
           </form>
