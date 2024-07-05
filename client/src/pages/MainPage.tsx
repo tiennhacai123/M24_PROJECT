@@ -12,6 +12,7 @@ export default function MainPage() {
     <div>
   <nav>
     <div className="container">
+      {/* tien */}
       <h2 className="logo">TienLD</h2>
       <div className="search-bar">
         <i className="uil uil-search" />
