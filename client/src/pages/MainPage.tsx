@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
-import '../assets/mainpage.css'
+import './mainpage.css'
+import { useNavigate } from 'react-router-dom';
 export default function MainPage() {
+  const navigate = useNavigate();
   const [showNoti,setShowNoti] = useState(false)
+  const logout=()=>{
+    navigate('/register')
+  }
   return (
+    
     <div>
   <nav>
     <div className="container">
@@ -18,9 +24,9 @@ export default function MainPage() {
         <div className="profile-photo">
           <img src="https://firebasestorage.googleapis.com/v0/b/ptit-729c7.appspot.com/o/images%2Fprofile-1.jpg?alt=media&token=8e8adb10-80a7-4693-8494-97155a6a3dbc" alt="" />
         </div>
-        <label className="btn btn-primary" htmlFor="create-post">
+        <button onClick={logout} className="btn btn-primary">
           Log out
-        </label>
+        </button>
       </div>
     </div>
   </nav>

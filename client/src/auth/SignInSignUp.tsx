@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../assets/signinsignout.css'
+import './Signinsignout.css'
 import { User, UserFormData, FormErrors } from '../interfaces/interface'
+import { useNavigate } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 export default function SignInSignup() {
+  const navigate=useNavigate();
   const [isSignUpActive, setIsSignUpActive] = useState(false);
   const [formData, setFormData] = useState<UserFormData>({
     email: '',
@@ -112,7 +114,7 @@ export default function SignInSignup() {
         const user = response.data.find((user: { email: string; password: string; }) => user.email === formData.email && user.password === formData.password);
         if (user) {
           alert(`Chào mừng, ${user.name}!`);
-          
+          navigate("/");
         } else {
           alert('Đăng nhập thất bại. Email hoặc mật khẩu không đúng.');
           
@@ -125,8 +127,8 @@ export default function SignInSignup() {
 
   return (
     <div className="auth-wrapper">
-      <div className={`container ${isSignUpActive ? 'active' : ''}`} id="container">
-        <div className="form-container sign-up">
+      <div className={`container_login ${isSignUpActive ? 'active' : ''}`} id="container_login">
+        <div className="form-container_login sign-up">
           <form onSubmit={handleSubmit}>
             <h1>Tạo Tài Khoản</h1>
             <div className="social-icons">
@@ -179,7 +181,7 @@ export default function SignInSignup() {
             <button type="submit">Đăng Ký</button>
           </form>
         </div>
-        <div className="form-container sign-in">
+        <div className="form-container_login sign-in">
           <form onSubmit={handleSubmit}>
             <h1>Đăng Nhập</h1>
             <div className="social-icons">
@@ -216,10 +218,10 @@ export default function SignInSignup() {
             />
             {errors.password && <span className="error">{errors.password}</span>}
             <a href="#">Quên mật khẩu của bạn?</a>
-            <button type="submit">Đăng Nhập</button>
+            <button type="submit" >Đăng Nhập</button>
           </form>
         </div>
-        <div className="toggle-container">
+        <div className="toggle-container_login">
           <div className="toggle">
             <div className="toggle-panel toggle-left">
               <h1>Chào Mừng Trở Lại!</h1>

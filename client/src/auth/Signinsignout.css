@@ -17,7 +17,7 @@ body{
     height: 100vh;
 }
 
-.container{
+.container_login{
     background-color: #fff;
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
@@ -28,25 +28,25 @@ body{
     min-height: 480px;
 }
 
-.container p{
+.container_login p{
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.3px;
     margin: 20px 0;
 }
 
-.container span{
+.container_login span{
     font-size: 12px;
 }
 
-.container a{
+.container_login a{
     color: #333;
     font-size: 13px;
     text-decoration: none;
     margin: 15px 0 10px;
 }
 
-.container button{
+.container_login button{
     background-color: #512da8;
     color: #fff;
     font-size: 12px;
@@ -60,12 +60,12 @@ body{
     cursor: pointer;
 }
 
-.container button.hidden{
+.container_login button.hidden{
     background-color: transparent;
     border-color: #fff;
 }
 
-.container form{
+.container_login form{
     background-color: #fff;
     display: flex;
     align-items: center;
@@ -75,7 +75,7 @@ body{
     height: 100%;
 }
 
-.container input{
+.container_login input{
     background-color: #eee;
     border: none;
     margin: 8px 0;
@@ -86,7 +86,7 @@ body{
     outline: none;
 }
 
-.form-container{
+.form-container_login{
     position: absolute;
     top: 0;
     height: 100%;
@@ -99,7 +99,7 @@ body{
     z-index: 2;
 }
 
-.container.active .sign-in{
+.container_login.active .sign-in{
     transform: translateX(100%);
 }
 
@@ -110,7 +110,7 @@ body{
     z-index: 1;
 }
 
-.container.active .sign-up{
+.container_login.active .sign-up{
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;
@@ -143,7 +143,7 @@ body{
     height: 40px;
 }
 
-.toggle-container{
+.toggle-container_login{
     position: absolute;
     top: 0;
     left: 50%;
@@ -155,7 +155,7 @@ body{
     z-index: 1000;
 }
 
-.container.active .toggle-container{
+.container_login.active .toggle-container_login{
     transform: translateX(-100%);
     border-radius: 0 150px 100px 0;
 }
@@ -173,7 +173,7 @@ body{
     transition: all 0.6s ease-in-out;
 }
 
-.container.active .toggle{
+.container_login.active .toggle{
     transform: translateX(50%);
 }
 
@@ -196,7 +196,7 @@ body{
     transform: translateX(-200%);
 }
 
-.container.active .toggle-left{
+.container_login.active .toggle-left{
     transform: translateX(0);
 }
 
@@ -205,6 +205,6 @@ body{
     transform: translateX(0);
 }
 
-.container.active .toggle-right{
+.container_login.active .toggle-right{
     transform: translateX(200%);
 }
